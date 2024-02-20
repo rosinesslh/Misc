@@ -7,8 +7,8 @@ import { ContactContext } from "./ContactContext";
 export const ContactAdd:FunctionComponent=() =>{
     const {addContact} = useContext(ContactContext);
     const navigate = useNavigate();
-    const onSubmit = (values:any) =>{
-        const id = addContact(values.name, values.description);
+    const onSubmit = async (values:any) =>{
+        const id = await addContact(values.name, values.description);
         navigate(`/contacts/${id}`);
     };
     return <ContactForm onSubmit={onSubmit}/>;

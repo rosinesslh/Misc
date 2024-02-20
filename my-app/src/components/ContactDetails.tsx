@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 //'use client'
 import {
   Heading,
@@ -15,8 +15,9 @@ import { ContactContext } from "./ContactContext";
 
 export const ContactDetails:FunctionComponent = () => {
     const {id} = useParams();
+    const [contact,setContact] = useState<any>();
     const {getContactById,deletContact} = useContext(ContactContext);
-    const contact = getContactById(parseInt(id!));
+    //const contact = getContactById(id!);
     const navigate = useNavigate();
     const handleEdit = () =>{
       navigate(`/contacts/${id}/edit`);
@@ -25,6 +26,14 @@ export const ContactDetails:FunctionComponent = () => {
       deletContact(parseInt(id!));
       navigate(`/`);
     };
+  const handleFetch = async () =>{
+    const newContact = await getContactById(id!);
+    setContact(newContact);
+  }
+
+  useEffect(()=>{
+    handleFetch();
+  },[]);
   return (
     <Center py={6}>
       <Box
